@@ -209,6 +209,28 @@ class PoolListScreen extends StatelessWidget {
   }
 }
 
+class TagListScreen extends StatelessWidget {
+  final String tag;
+  const TagListScreen({super.key, required this.tag});
+
+  @override
+  Widget build(BuildContext context) {
+    final entries = DataRepository.instance.search('', tag: tag);
+    return Scaffold(
+      appBar: AppBar(title: Text('#$tag')),
+      body: ContentWrap(
+        maxWidth: 760,
+        child: entries.isEmpty
+            ? const Center(child: Text('No items with this tag.'))
+            : ListView.builder(
+                itemCount: entries.length,
+                itemBuilder: (context, i) => _entryTile(context, entries[i]),
+              ),
+      ),
+    );
+  }
+}
+
 Widget _entryTile(BuildContext context, IsaacEntry e) {
   return ListTile(
     leading: ItemSprite(entry: e, size: 38),

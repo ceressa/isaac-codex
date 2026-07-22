@@ -72,22 +72,29 @@ class IsaacEntry {
     return section;
   }
 
-  /// Derive a 0-10 power rating from the official platinumgod quality
-  /// (which is 0-4). Returns null when quality is unknown.
+  /// The official platinumgod item quality, 0 (weakest) to 4 (top tier), or
+  /// null when the item is unrated (most trinkets, cards and consumables).
   int? get power {
     final q = quality;
     if (q == null) return null;
-    return (q.clamp(0, 4) * 2.5).round().clamp(0, 10);
+    return q.clamp(0, 4);
   }
 
   String get powerLabel {
-    final p = power;
-    if (p == null) return '-';
-    if (p <= 2) return 'Weak';
-    if (p <= 4) return 'Average';
-    if (p <= 6) return 'Good';
-    if (p <= 8) return 'Strong';
-    return 'S Tier';
+    switch (power) {
+      case 0:
+        return 'Weak';
+      case 1:
+        return 'Fair';
+      case 2:
+        return 'Good';
+      case 3:
+        return 'Great';
+      case 4:
+        return 'S Tier';
+      default:
+        return '-';
+    }
   }
 }
 

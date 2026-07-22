@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../item_sprite.dart';
 import '../models/isaac_entry.dart';
 import '../responsive.dart';
+import '../services/data_repository.dart';
+import 'category_screen.dart';
 import 'search_screen.dart' show PowerBadge;
 
 class DetailScreen extends StatelessWidget {
@@ -85,13 +87,7 @@ class DetailScreen extends StatelessWidget {
             Wrap(
               spacing: 8,
               runSpacing: 8,
-              children: [
-                if (entry.idNumber != null)
-                  _Chip('${entry.idKind}: ${entry.idNumber}'),
-                ...entry.metadata.entries.map(
-                  (e) => _Chip('${e.key}: ${e.value}'),
-                ),
-              ],
+              children: _metaChips(context, entry),
             ),
             const SizedBox(height: 20),
             Text('Description',
@@ -113,7 +109,12 @@ class DetailScreen extends StatelessWidget {
               Wrap(
                 spacing: 6,
                 runSpacing: 6,
-                children: entry.tags.map((t) => _Chip(t)).toList(),
+                children: entry.tags
+                    .map((t) => _Chip(t,
+                        onTap: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (_) => TagListScreen(tag: t)))))
+                    .toList(),
               ),
             ],
             const SizedBox(height: 24),
@@ -126,17 +127,79 @@ class DetailScreen extends StatelessWidget {
 
 class _Chip extends StatelessWidget {
   final String label;
-  const _Chip(this.label);
+  final VoidCallback? onTap;
+  const _Chip(this.label, {this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final theme = Theme.of(context);
+    final tappable = onTap != null;
+    final body = Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        color: tappable
+            ? theme.colorScheme.primaryContainer.withValues(alpha: 0.55)
+            : theme.colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Text(label, style: Theme.of(context).textTheme.bodySmall),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label, style: theme.textTheme.bodySmall),
+          if (tappable) ...[
+            const SizedBox(width: 2),
+            Icon(Icons.chevron_right,
+                size: 14, color: theme.colorScheme.onPrimaryContainer),
+          ],
+        ],
+      ),
+    );
+    if (!tappable) return body;
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: body,
+      ),
     );
   }
+}
+
+/// Builds the metadata chips, making Item Pool and Type tappable to filter.
+List<Widget> _metaChips(BuildContext context, IsaacEntry entry) {
+  final chips = <Widget>[];
+  if (entry.idNumber != null) {
+    chips.add(_Chip('${entry.idKind}: ${entry.idNumber}'));
+  }
+  entry.metadata.forEach((key, value) {
+    final k = key.toLowerCase();
+    if (k == 'item pool') {
+      for (final p
+          in value.split(',').map((s) => s.trim()).where((s) => s.isNotEmpty)) {
+        chips.add(_Chip('Pool: $p',
+            onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => PoolListScreen(pool: p)))));
+      }
+    } else if (k == 'type') {
+      for (final t
+          in value.split(',').map((s) => s.trim()).where((s) => s.isNotEmpty)) {
+        TypeFilter? tf;
+        for (final f in kTypeFilters) {
+          if (f.label.toLowerCase() == t.toLowerCase()) {
+            tf = f;
+            break;
+          }
+        }
+        chips.add(_Chip('Type: $t',
+            onTap: tf == null
+                ? null
+                : () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => TypeListScreen(filter: tf!)))));
+      }
+    } else {
+      chips.add(_Chip('$key: $value'));
+    }
+  });
+  return chips;
 }

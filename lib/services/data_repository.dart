@@ -32,7 +32,7 @@ class DataRepository extends ChangeNotifier {
 
   /// Lightweight ranked search.
   List<IsaacEntry> search(String query,
-      {String? category, String? typeFilter, String? itemPool}) {
+      {String? category, String? typeFilter, String? itemPool, String? tag}) {
     final q = query.trim().toLowerCase();
     Iterable<IsaacEntry> pool = _entries;
     if (category != null) {
@@ -43,6 +43,10 @@ class DataRepository extends ChangeNotifier {
     }
     if (itemPool != null) {
       pool = pool.where((e) => poolsOf(e).contains(itemPool));
+    }
+    if (tag != null) {
+      final t = tag.toLowerCase();
+      pool = pool.where((e) => e.tags.any((x) => x.toLowerCase() == t));
     }
     final list = pool.toList();
     if (q.isEmpty) {

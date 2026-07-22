@@ -255,12 +255,20 @@ class PowerBadge extends StatelessWidget {
   const PowerBadge({super.key, required this.power, this.size = 36});
 
   static Color colorFor(int? p) {
-    if (p == null) return Colors.blueGrey;
-    if (p <= 2) return Colors.redAccent;
-    if (p <= 4) return Colors.orangeAccent;
-    if (p <= 6) return Colors.amber;
-    if (p <= 8) return Colors.lightGreen;
-    return Colors.greenAccent;
+    switch (p) {
+      case 0:
+        return Colors.redAccent;
+      case 1:
+        return Colors.orangeAccent;
+      case 2:
+        return Colors.amber;
+      case 3:
+        return Colors.lightGreen;
+      case 4:
+        return Colors.greenAccent;
+      default:
+        return Colors.blueGrey;
+    }
   }
 
   @override
