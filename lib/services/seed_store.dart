@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/saved_seed.dart';
@@ -49,5 +50,33 @@ class SeedStore extends ChangeNotifier {
   Future<void> remove(String id) async {
     _seeds.removeWhere((s) => s.id == id);
     await _persist();
+  }
+
+  /// A pretty-printed JSON backup of every saved seed.
+  String exportJson() => const JsonEncoder.withIndent('  ').convert({
+        'app': 'isaac-codex',
+        'kind': 'saved-seeds',
+        'version': 1,
+        'seeds': _seeds.map((s) => s.toJson()).toList(),
+      });
+
+  /// Merges seeds from an exported JSON string. Accepts either the wrapper
+  /// object ({"seeds": [...]}) or a bare array. Returns how many were added.
+  Future<int> importJson(String raw) async {
+    final decoded = jsonDecode(raw);
+    final List list = decoded is Map
+        ? (decoded['seeds'] as List? ?? const [])
+        : (decoded as List);
+    final existing = _seeds.map((s) => s.id).toSet();
+    var added = 0;
+    for (final e in list) {
+      final seed = SavedSeed.fromJson(e as Map<String, dynamic>);
+      if (existing.add(seed.id)) {
+        _seeds.add(seed);
+        added++;
+      }
+    }
+    if (added > 0) await _persist();
+    return added;
   }
 }

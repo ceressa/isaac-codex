@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/saved_seed.dart';
 import '../responsive.dart';
+import '../seed_io.dart';
 import '../services/seed_store.dart';
 
 class SeedsScreen extends StatefulWidget {
@@ -30,6 +31,36 @@ class _SeedsScreenState extends State<SeedsScreen> {
     if (mounted) setState(() {});
   }
 
+  Future<void> _export() async {
+    final json = SeedStore.instance.exportJson();
+    final saved = await exportSeedsFile(json, 'isaac-codex-seeds.json');
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(saved
+            ? 'Saved isaac-codex-seeds.json'
+            : 'Seeds JSON copied to clipboard'),
+      ),
+    );
+  }
+
+  Future<void> _import() async {
+    final raw = await importSeedsFile();
+    if (raw == null || raw.trim().isEmpty) return;
+    String message;
+    try {
+      final n = await SeedStore.instance.importJson(raw);
+      message = n > 0
+          ? 'Imported $n seed${n == 1 ? '' : 's'}'
+          : 'No new seeds to import';
+    } catch (_) {
+      message = 'Could not read that JSON';
+    }
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
+  }
+
   @override
   Widget build(BuildContext context) {
     final seeds = SeedStore.instance.seeds;
@@ -44,6 +75,31 @@ class _SeedsScreenState extends State<SeedsScreen> {
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const PresetSeedsScreen()),
             ),
+          ),
+          PopupMenuButton<String>(
+            tooltip: 'Backup',
+            onSelected: (v) {
+              if (v == 'export') _export();
+              if (v == 'import') _import();
+            },
+            itemBuilder: (_) => const [
+              PopupMenuItem(
+                value: 'export',
+                child: ListTile(
+                  leading: Icon(Icons.download),
+                  title: Text('Export seeds (JSON)'),
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
+              PopupMenuItem(
+                value: 'import',
+                child: ListTile(
+                  leading: Icon(Icons.upload),
+                  title: Text('Import seeds (JSON)'),
+                  contentPadding: EdgeInsets.zero,
+                ),
+              ),
+            ],
           ),
         ],
       ),
