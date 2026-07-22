@@ -31,7 +31,8 @@ class DataRepository extends ChangeNotifier {
   }
 
   /// Lightweight ranked search.
-  List<IsaacEntry> search(String query, {String? category, String? typeFilter}) {
+  List<IsaacEntry> search(String query,
+      {String? category, String? typeFilter, String? itemPool}) {
     final q = query.trim().toLowerCase();
     Iterable<IsaacEntry> pool = _entries;
     if (category != null) {
@@ -39,6 +40,9 @@ class DataRepository extends ChangeNotifier {
     }
     if (typeFilter != null) {
       pool = pool.where((e) => matchesType(e, typeFilter));
+    }
+    if (itemPool != null) {
+      pool = pool.where((e) => poolsOf(e).contains(itemPool));
     }
     final list = pool.toList();
     if (q.isEmpty) {
@@ -93,6 +97,27 @@ class DataRepository extends ChangeNotifier {
   int countByType(String typeFilter) {
     return _entries.where((e) => matchesType(e, typeFilter)).length;
   }
+
+  /// Item counts per item pool (Treasure Room, Devil Room, Angel Room, ...).
+  Map<String, int> poolCounts() {
+    final counts = <String, int>{};
+    for (final e in _entries) {
+      for (final p in poolsOf(e)) {
+        counts[p] = (counts[p] ?? 0) + 1;
+      }
+    }
+    return counts;
+  }
+}
+
+/// The item pools an entry belongs to, from its "Item Pool" metadata.
+List<String> poolsOf(IsaacEntry e) {
+  final raw = e.metadata['Item Pool'] ?? '';
+  return raw
+      .split(',')
+      .map((s) => s.trim())
+      .where((s) => s.isNotEmpty)
+      .toList();
 }
 
 /// Type filters operate on the metadata['Type'] field, which can be a

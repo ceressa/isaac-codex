@@ -54,6 +54,27 @@ class BoiWikiApp extends StatelessWidget {
         ),
         useMaterial3: true,
         scaffoldBackgroundColor: const Color(0xFF0B090A),
+        chipTheme: ChipThemeData(
+          backgroundColor: const Color(0xFF231E20),
+          selectedColor: const Color(0xFF7A1414),
+          disabledColor: const Color(0xFF231E20),
+          labelStyle: const TextStyle(
+            color: Color(0xFFF3ECEE),
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+          ),
+          secondaryLabelStyle: const TextStyle(
+            color: Color(0xFFFFE1E0),
+            fontSize: 13,
+            fontWeight: FontWeight.w700,
+          ),
+          side: const BorderSide(color: Color(0xFF4A3F42)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+          showCheckmark: false,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        ),
       ),
       home: const HomeShell(),
     );

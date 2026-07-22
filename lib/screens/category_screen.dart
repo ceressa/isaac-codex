@@ -43,6 +43,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
     final visibleSources = kCategories
         .where((c) => (counts[c.id] ?? 0) > 0)
         .toList();
+    final pools = repo.poolCounts().entries
+        .where((e) => e.value >= 10)
+        .toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
 
     return Scaffold(
       appBar: AppBar(title: const Text('Categories'), centerTitle: false),
@@ -75,6 +79,19 @@ class _CategoryScreenState extends State<CategoryScreen> {
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (_) => CategoryListScreen(category: c),
+                    ),
+                  ),
+                )),
+            const Divider(height: 24),
+            _SectionHeader(title: 'By item pool'),
+            ...pools.map((e) => ListTile(
+                  leading: const Icon(Icons.meeting_room_outlined),
+                  title: Text(e.key),
+                  subtitle: Text('${e.value} items'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => PoolListScreen(pool: e.key),
                     ),
                   ),
                 )),
@@ -165,6 +182,28 @@ class TypeListScreen extends StatelessWidget {
           itemCount: entries.length,
           itemBuilder: (context, i) => _entryTile(context, entries[i]),
         ),
+      ),
+    );
+  }
+}
+
+class PoolListScreen extends StatelessWidget {
+  final String pool;
+  const PoolListScreen({super.key, required this.pool});
+
+  @override
+  Widget build(BuildContext context) {
+    final entries = DataRepository.instance.search('', itemPool: pool);
+    return Scaffold(
+      appBar: AppBar(title: Text(pool)),
+      body: ContentWrap(
+        maxWidth: 760,
+        child: entries.isEmpty
+            ? const Center(child: Text('No items in this pool.'))
+            : ListView.builder(
+                itemCount: entries.length,
+                itemBuilder: (context, i) => _entryTile(context, entries[i]),
+              ),
       ),
     );
   }
