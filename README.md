@@ -4,6 +4,8 @@ An unofficial companion app for **The Binding of Isaac: Repentance**. Browse the
 item database offline, search by name or effect, and keep a list of your favourite seeds.
 Built with Flutter.
 
+**Live web version: [ceressa.github.io/isaac-codex](https://ceressa.github.io/isaac-codex/)**
+
 > Unofficial fan project. Not affiliated with, endorsed by, or sponsored by Nicalis, Inc.
 > or Edmund McMillen.
 
