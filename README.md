@@ -7,6 +7,15 @@ Built with Flutter.
 > Unofficial fan project. Not affiliated with, endorsed by, or sponsored by Nicalis, Inc.
 > or Edmund McMillen.
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/search.png" width="24%" alt="Search" />
+  <img src="docs/screenshots/categories.png" width="24%" alt="Categories" />
+  <img src="docs/screenshots/detail.png" width="24%" alt="Item detail" />
+  <img src="docs/screenshots/seeds.png" width="24%" alt="Saved seeds" />
+</p>
+
 ## Features
 
 - **Search** - find items, trinkets, cards and consumables by name or effect text

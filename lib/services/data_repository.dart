@@ -125,8 +125,8 @@ class TypeFilter {
 }
 
 const List<TypeFilter> kTypeFilters = [
-  TypeFilter('active', 'Aktif', '⚡'),
-  TypeFilter('passive', 'Pasif', '🔒'),
+  TypeFilter('active', 'Active', '⚡'),
+  TypeFilter('passive', 'Passive', '🔒'),
   TypeFilter('familiar', 'Familiar', '👻'),
   TypeFilter('tear', 'Tear Modifier', '💧'),
   TypeFilter('orbital', 'Orbital', '🪐'),

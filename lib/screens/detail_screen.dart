@@ -97,39 +97,18 @@ class DetailScreen extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 20),
-          Text('Açıklama',
+          Text('Description',
               style: theme.textTheme.titleSmall?.copyWith(
                 color: theme.colorScheme.primary,
               )),
           const SizedBox(height: 8),
-          if (!hasTr)
-            Container(
-              padding: const EdgeInsets.all(10),
-              margin: const EdgeInsets.only(bottom: 12),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.tertiaryContainer.withValues(alpha: 0.4),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  const Icon(Icons.translate, size: 18),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Text(
-                      'Türkçe çeviri henüz yok — orijinal İngilizce gösteriliyor.',
-                      style: theme.textTheme.bodySmall,
-                    ),
-                  ),
-                ],
-              ),
-            ),
           ...desc.map((d) => Padding(
                 padding: const EdgeInsets.only(bottom: 8),
                 child: Text(d, style: theme.textTheme.bodyLarge),
               )),
           if (entry.tags.isNotEmpty) ...[
             const SizedBox(height: 16),
-            Text('Etiketler',
+            Text('Tags',
                 style: theme.textTheme.titleSmall?.copyWith(
                   color: theme.colorScheme.primary,
                 )),

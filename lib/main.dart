@@ -84,17 +84,17 @@ class _HomeShellState extends State<HomeShell> {
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.search),
-            label: 'Ara',
+            label: 'Search',
           ),
           NavigationDestination(
             icon: Icon(Icons.category_outlined),
             selectedIcon: Icon(Icons.category),
-            label: 'Kategori',
+            label: 'Categories',
           ),
           NavigationDestination(
             icon: Icon(Icons.bookmark_border),
             selectedIcon: Icon(Icons.bookmark),
-            label: 'Seedler',
+            label: 'Seeds',
           ),
         ],
       ),

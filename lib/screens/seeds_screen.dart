@@ -34,11 +34,11 @@ class _SeedsScreenState extends State<SeedsScreen> {
     final seeds = SeedStore.instance.seeds;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kayıtlı Seedler'),
+        title: const Text('Saved Seeds'),
         actions: [
           IconButton(
             icon: const Icon(Icons.auto_awesome),
-            tooltip: 'Hazır Seedler',
+            tooltip: 'Preset Seeds',
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (_) => const PresetSeedsScreen()),
             ),
@@ -61,13 +61,13 @@ class _SeedsScreenState extends State<SeedsScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Henüz seed yok',
+                          'No seeds yet',
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Oyun içinde Options → Seeded Run\'da gördüğün kodu '
-                          'aşağıdan + butonuyla kaydet. İyi runları unutma.',
+                          'Save the code from Options -> Seeded Run in-game '
+                          'using the + button below. Never lose a good run.',
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
@@ -83,7 +83,7 @@ class _SeedsScreenState extends State<SeedsScreen> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _openEditor(context, null),
         icon: const Icon(Icons.add),
-        label: const Text('Seed Ekle'),
+        label: const Text('Add Seed'),
       ),
     );
   }
@@ -113,12 +113,12 @@ class _SeedTile extends StatelessWidget {
             visualDensity: VisualDensity.compact,
             iconSize: 18,
             icon: const Icon(Icons.copy),
-            tooltip: 'Kopyala',
+            tooltip: 'Copy',
             onPressed: () {
               Clipboard.setData(ClipboardData(text: seed.code));
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text('${seed.code} kopyalandı'),
+                  content: Text('${seed.code} copied'),
                   duration: const Duration(seconds: 1),
                 ),
               );
@@ -146,8 +146,8 @@ class _SeedTile extends StatelessWidget {
       ),
       trailing: PopupMenuButton<String>(
         itemBuilder: (_) => const [
-          PopupMenuItem(value: 'edit', child: Text('Düzenle')),
-          PopupMenuItem(value: 'delete', child: Text('Sil')),
+          PopupMenuItem(value: 'edit', child: Text('Edit')),
+          PopupMenuItem(value: 'delete', child: Text('Delete')),
         ],
         onSelected: (v) async {
           if (v == 'edit') {
@@ -156,15 +156,15 @@ class _SeedTile extends StatelessWidget {
             final ok = await showDialog<bool>(
               context: context,
               builder: (_) => AlertDialog(
-                title: Text('${seed.code} silinsin mi?'),
+                title: Text('Delete ${seed.code}?'),
                 actions: [
                   TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
-                    child: const Text('Vazgeç'),
+                    child: const Text('Cancel'),
                   ),
                   FilledButton(
                     onPressed: () => Navigator.of(context).pop(true),
-                    child: const Text('Sil'),
+                    child: const Text('Delete'),
                   ),
                 ],
               ),
@@ -229,7 +229,7 @@ class _PresetSeedsScreenState extends State<PresetSeedsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Hazır Seedler')),
+      appBar: AppBar(title: const Text('Preset Seeds')),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : Column(
@@ -237,8 +237,8 @@ class _PresetSeedsScreenState extends State<PresetSeedsScreen> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
                   child: Text(
-                    'Repentance\'ın "Special Seeds" kodları — oyunu tuhaf '
-                    'şekillerde modifiye eder. Tap → kendi listene kaydet.',
+                    'Repentance "Special Seeds" codes that modify the game in '
+                    'strange ways. Tap to save one to your list.',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ),
@@ -280,7 +280,7 @@ class _PresetSeedsScreenState extends State<PresetSeedsScreen> {
                         ),
                         trailing: IconButton(
                           icon: const Icon(Icons.bookmark_add_outlined),
-                          tooltip: 'Listeme ekle',
+                          tooltip: 'Add to my list',
                           onPressed: () async {
                             await SeedStore.instance.add(SavedSeed(
                               id: DateTime.now()
@@ -288,14 +288,14 @@ class _PresetSeedsScreenState extends State<PresetSeedsScreen> {
                                   .toString(),
                               code: p.code,
                               character: '',
-                              note: '${p.name} — ${p.effect}',
+                              note: '${p.name}: ${p.effect}',
                               savedAt: DateTime.now(),
                               tags: const ['preset'],
                             ));
                             if (!context.mounted) return;
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('${p.code} eklendi'),
+                                content: Text('${p.code} added'),
                                 duration: const Duration(seconds: 1),
                               ),
                             );
@@ -305,7 +305,7 @@ class _PresetSeedsScreenState extends State<PresetSeedsScreen> {
                           Clipboard.setData(ClipboardData(text: p.code));
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text('${p.code} kopyalandı'),
+                              content: Text('${p.code} copied'),
                               duration: const Duration(seconds: 1),
                             ),
                           );
@@ -364,7 +364,7 @@ class _SeedEditorState extends State<SeedEditor> {
     final code = SavedSeed.normaliseCode(_codeCtrl.text);
     if (code.replaceAll(' ', '').length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Geçerli bir seed kodu gir')),
+        const SnackBar(content: Text('Enter a valid seed code')),
       );
       return;
     }
@@ -404,7 +404,7 @@ class _SeedEditorState extends State<SeedEditor> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.existing == null ? 'Yeni Seed' : 'Seedi Düzenle',
+            widget.existing == null ? 'New Seed' : 'Edit Seed',
             style: Theme.of(context).textTheme.titleLarge,
           ),
           const SizedBox(height: 16),
@@ -412,7 +412,7 @@ class _SeedEditorState extends State<SeedEditor> {
             controller: _codeCtrl,
             textCapitalization: TextCapitalization.characters,
             decoration: const InputDecoration(
-              labelText: 'Seed kodu (8 karakter)',
+              labelText: 'Seed code (8 characters)',
               hintText: 'ABCD 1234',
               border: OutlineInputBorder(),
             ),
@@ -428,7 +428,7 @@ class _SeedEditorState extends State<SeedEditor> {
             initialValue: _character.isEmpty ? null : _character,
             isExpanded: true,
             decoration: const InputDecoration(
-              labelText: 'Karakter (opsiyonel)',
+              labelText: 'Character (optional)',
               border: OutlineInputBorder(),
             ),
             items: kCharacters
@@ -441,8 +441,8 @@ class _SeedEditorState extends State<SeedEditor> {
             controller: _noteCtrl,
             maxLines: 3,
             decoration: const InputDecoration(
-              labelText: 'Not (opsiyonel)',
-              hintText: 'Ör. Basement\'ta double Sacred Heart',
+              labelText: 'Note (optional)',
+              hintText: 'e.g. double Sacred Heart in Basement',
               border: OutlineInputBorder(),
             ),
           ),
@@ -452,13 +452,13 @@ class _SeedEditorState extends State<SeedEditor> {
             children: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Vazgeç'),
+                child: const Text('Cancel'),
               ),
               const SizedBox(width: 8),
               FilledButton.icon(
                 onPressed: _save,
                 icon: const Icon(Icons.save),
-                label: const Text('Kaydet'),
+                label: const Text('Save'),
               ),
             ],
           ),

@@ -33,7 +33,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     final repo = DataRepository.instance;
     if (!repo.isLoaded) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Kategoriler')),
+        appBar: AppBar(title: const Text('Categories')),
         body: const Center(child: CircularProgressIndicator()),
       );
     }
@@ -43,16 +43,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
         .toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Kategoriler')),
+      appBar: AppBar(title: const Text('Categories')),
       body: ListView(
         children: [
-          _SectionHeader(title: 'Tipe göre'),
+          _SectionHeader(title: 'By type'),
           ...kTypeFilters.map((tf) {
             final count = repo.countByType(tf.id);
             return ListTile(
               leading: Text(tf.icon, style: const TextStyle(fontSize: 24)),
               title: Text(tf.label),
-              subtitle: Text('$count item'),
+              subtitle: Text('$count items'),
               trailing: const Icon(Icons.chevron_right),
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
@@ -62,11 +62,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
             );
           }),
           const Divider(height: 24),
-          _SectionHeader(title: 'Kaynağa göre'),
+          _SectionHeader(title: 'By source'),
           ...visibleSources.map((c) => ListTile(
                 leading: Text(c.icon, style: const TextStyle(fontSize: 24)),
-                title: Text(c.labelTr),
-                subtitle: Text('${counts[c.id]} kayıt'),
+                title: Text(c.label),
+                subtitle: Text('${counts[c.id]} items'),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
@@ -120,7 +120,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
       typeFilter: _typeFilter,
     );
     return Scaffold(
-      appBar: AppBar(title: Text(widget.category.labelTr)),
+      appBar: AppBar(title: Text(widget.category.label)),
       body: Column(
         children: [
           _FilterChips(
@@ -129,7 +129,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
           ),
           Expanded(
             child: entries.isEmpty
-                ? const Center(child: Text('Bu filtrede item yok.'))
+                ? const Center(child: Text('No items for this filter.'))
                 : ListView.builder(
                     itemCount: entries.length,
                     itemBuilder: (context, i) =>
@@ -189,7 +189,7 @@ class _FilterChips extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         children: [
-          _chip(context, label: 'Tümü', value: null),
+          _chip(context, label: 'All', value: null),
           ...kTypeFilters.map(
             (tf) => _chip(context, label: '${tf.icon} ${tf.label}', value: tf.id),
           ),

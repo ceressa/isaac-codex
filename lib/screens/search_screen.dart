@@ -60,7 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
               autofocus: true,
               textInputAction: TextInputAction.search,
               decoration: InputDecoration(
-                hintText: 'Item adı yaz (ör. Brimstone, Sacred Heart)',
+                hintText: 'Type an item name (e.g. Brimstone, Sacred Heart)',
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: _query.isEmpty
                     ? null
@@ -85,7 +85,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 scrollDirection: Axis.horizontal,
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 children: [
-                  _typeChip(label: 'Tümü', value: null),
+                  _typeChip(label: 'All', value: null),
                   for (final tf in kTypeFilters)
                     _typeChip(
                       label: '${tf.icon} ${tf.label}',
@@ -101,12 +101,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '${results.length} sonuç',
+                    '${results.length} results',
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   if (_query.isEmpty)
                     Text(
-                      'A→Z',
+                      'A-Z',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                 ],
@@ -120,7 +120,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(24),
                           child: Text(
-                            'Eşleşen item yok.\nİngilizce isimle aramayı dene.',
+                            'No matching items.\nTry a different spelling.',
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
@@ -201,7 +201,7 @@ class PowerBadge extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: Text(
-        power == null ? '—' : '$power',
+        power == null ? '-' : '$power',
         style: TextStyle(
           color: color,
           fontWeight: FontWeight.bold,

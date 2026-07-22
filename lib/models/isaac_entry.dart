@@ -79,20 +79,20 @@ class IsaacEntry {
 
   String get powerLabel {
     final p = power;
-    if (p == null) return '—';
-    if (p <= 2) return 'Zayıf';
-    if (p <= 4) return 'Vasat';
-    if (p <= 6) return 'İyi';
-    if (p <= 8) return 'Güçlü';
+    if (p == null) return '-';
+    if (p <= 2) return 'Weak';
+    if (p <= 4) return 'Average';
+    if (p <= 6) return 'Good';
+    if (p <= 8) return 'Strong';
     return 'S Tier';
   }
 }
 
 class CategoryInfo {
   final String id;
-  final String labelTr;
+  final String label;
   final String icon;
-  const CategoryInfo(this.id, this.labelTr, this.icon);
+  const CategoryInfo(this.id, this.label, this.icon);
 }
 
 const List<CategoryInfo> kCategories = [
@@ -102,14 +102,14 @@ const List<CategoryInfo> kCategories = [
   CategoryInfo('afterbirth_plus_item', 'Afterbirth+ Item', '🌓'),
   CategoryInfo('repentance_trinket', 'Repentance Trinket', '🆕'),
   CategoryInfo('trinket', 'Trinket', '🪙'),
-  CategoryInfo('card', 'Kart / Rune', '🃏'),
+  CategoryInfo('card', 'Card / Rune', '🃏'),
   CategoryInfo('repentance_consumable', 'Repentance Consumable', '🧪'),
   CategoryInfo('consumable', 'Consumable', '🧪'),
 ];
 
 String categoryLabel(String id) {
   for (final c in kCategories) {
-    if (c.id == id) return c.labelTr;
+    if (c.id == id) return c.label;
   }
   return id;
 }
