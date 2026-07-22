@@ -1,5 +1,5 @@
 name: boi_wiki
-description: "The Binding of Isaac: Repentance — Türkçe wiki ve item arama uygulaması."
+description: "An unofficial offline item database and seed tracker for The Binding of Isaac: Repentance."
 publish_to: 'none'
 version: 1.0.3+3002
 

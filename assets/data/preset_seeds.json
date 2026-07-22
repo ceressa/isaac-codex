@@ -1,85 +1,85 @@
 {
-  "source": "Binding of Isaac: Repentance — Special Seeds (community-documented)",
+  "source": "Binding of Isaac: Repentance - Special Seeds (community-documented)",
   "seeds": [
     {
       "code": "BLCK CNDL",
       "name": "Black Candle",
-      "effect": "Tüm curse'ler (Curse of Darkness, Lost, Maze, Blind, Unknown, Cursed) her katta aktif olur."
+      "effect": "Every curse (Darkness, Lost, Maze, Blind, Unknown, Cursed) is active on every floor."
     },
     {
       "code": "BRWN SNKE",
       "name": "Brown Snake",
-      "effect": "Patlayan kakaların %50 ihtimalle yılana dönüşür."
+      "effect": "Exploding poops have a 50% chance to turn into a snake."
     },
     {
       "code": "CRAP PIPE",
       "name": "Crap Pipe",
-      "effect": "Tüm kakalardan rastgele tear'lar fışkırır."
+      "effect": "Every poop sprays out random tears."
     },
     {
       "code": "DRAW NOIR",
       "name": "Draw Noir",
-      "effect": "Oyun siyah-beyaz görünür."
+      "effect": "The whole game is rendered in black and white."
     },
     {
       "code": "HRDC ORE",
       "name": "Hardcore",
-      "effect": "Hard mode kuralları zorla uygulanır (HP yarı, daha az pickup)."
+      "effect": "Hard mode rules are forced on (half HP, fewer pickups)."
     },
     {
       "code": "ITSA TRAP",
       "name": "It's a Trap",
-      "effect": "Tüm chest'ler mimic gibi davranır, açınca seni vurur."
+      "effect": "Every chest behaves like a mimic and attacks you when opened."
     },
     {
       "code": "KEYS PLZE",
       "name": "Keys Please",
-      "effect": "Tüm pickup'lar key olur."
+      "effect": "All pickups become keys."
     },
     {
       "code": "OLDR HOOD",
       "name": "Olde Worlde",
-      "effect": "Sprite ve renkler eski (Flash) Isaac'in görünümüne döner."
+      "effect": "Sprites and colours revert to the old (Flash) Isaac look."
     },
     {
       "code": "PAY 2WIN",
       "name": "Pay 2 Win",
-      "effect": "Tüm pickup'lar (kalp, key, bombe) shop'taki gibi paraya satın alınır."
+      "effect": "All pickups (hearts, keys, bombs) must be bought with coins, like in a shop."
     },
     {
       "code": "PURE EVIL",
       "name": "Pure Evil",
-      "effect": "Tüm angel room'lar devil room ile değiştirilir."
+      "effect": "All Angel Rooms are replaced with Devil Rooms."
     },
     {
       "code": "SLOW MOMM",
       "name": "Slow Mode",
-      "effect": "Oyun yavaş motion'da çalışır."
+      "effect": "The game runs in slow motion."
     },
     {
       "code": "SUPR HOTT",
       "name": "Superhot",
-      "effect": "Sen hareket etmedikçe oyun durur (Superhot mekaniği)."
+      "effect": "Time only moves when you move (Superhot mechanic)."
     },
     {
       "code": "FART SNGS",
       "name": "Fart Sounds",
-      "effect": "Tüm efektler osuruk sesine dönüşür."
+      "effect": "All sound effects are replaced with fart noises."
     },
     {
       "code": "PRGT PRGT",
       "name": "Purgatory",
-      "effect": "Tüm odalar Mom's Heart fight'ı gibi extra zor olur."
+      "effect": "Every room is extra hard, like the Mom's Heart fight."
     },
     {
       "code": "GLOW ENMY",
       "name": "Glowing Enemies",
-      "effect": "Düşmanlar parlar (champion görünümü)."
+      "effect": "Enemies glow, as if they were champions."
     },
     {
       "code": "ULTR HARD",
       "name": "Ultra Hard",
-      "effect": "Hard mode + bütün curse'ler + en zor item pool."
+      "effect": "Hard mode plus every curse and the hardest item pool."
     }
   ]
 }
