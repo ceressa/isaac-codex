@@ -23,6 +23,7 @@ flutter:
   assets:
     - assets/data/items.json
     - assets/data/preset_seeds.json
+    - assets/sprites/
 
 flutter_launcher_icons:
   android: "launcher_icon"

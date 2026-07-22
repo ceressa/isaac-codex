@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../item_sprite.dart';
 import '../models/isaac_entry.dart';
 import '../responsive.dart';
 import 'search_screen.dart' show PowerBadge;
@@ -25,14 +26,7 @@ class DetailScreen extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  radius: 28,
-                  backgroundColor: theme.colorScheme.primaryContainer,
-                  child: Text(
-                    categoryIcon(entry.category),
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                ),
+                ItemSprite(entry: entry, size: 72),
                 const SizedBox(width: 16),
                 Expanded(
                   child: Column(

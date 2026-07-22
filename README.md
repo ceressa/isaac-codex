@@ -21,6 +21,8 @@ Built with Flutter.
 ## Features
 
 - **Search** - find items, trinkets, cards and consumables by name or effect text
+- **Visual search** - a grid of every item sprite; recognise an item by how it looks
+  (handy when you are standing on a pedestal and do not know what you just found)
 - **Categories** - browse everything grouped (Rebirth / Afterbirth / Afterbirth+ / Repentance
   items, trinkets, cards, consumables)
 - **Item detail** - quality, pickup method, in-game ID and the full effect description
@@ -29,11 +31,15 @@ Built with Flutter.
 
 ## Data & attribution
 
-Item data (1000+ entries) is sourced from [Platinum God](https://platinumgod.co.uk/repentance),
-the community item reference for The Binding of Isaac. All item names, descriptions and game
-content belong to their respective owners. Big thanks to the Platinum God contributors.
+Item data (1000+ entries) and the item **sprites** are sourced from
+[Platinum God](https://platinumgod.co.uk/repentance), the community item reference for
+The Binding of Isaac. The sprites are the game's pixel art and, like all item names,
+descriptions and game content, remain the property of Nicalis, Inc. / Edmund McMillen.
+They are included here only as a non-commercial fan reference. Huge thanks to the Platinum
+God contributors; if you are a rights holder and want content removed, open an issue.
 
-The `scraper/` folder contains the Python script used to build `assets/data/items.json`.
+The `scraper/` folder contains the Python scripts that build `assets/data/items.json`
+(`scrape.py`) and slice the per-item sprites into `assets/sprites/` (`fetch_sprites.py`).
 
 > Note: the app interface is currently in Turkish. Item text is in English (from the source).
 

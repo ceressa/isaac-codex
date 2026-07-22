@@ -8,6 +8,7 @@ class IsaacEntry {
   final String section;
   final String name;
   final String nameTr;
+  final String sprite;
   final String idKind;
   final int? idNumber;
   final String pickup;
@@ -24,6 +25,7 @@ class IsaacEntry {
     required this.section,
     required this.name,
     required this.nameTr,
+    required this.sprite,
     required this.idKind,
     required this.idNumber,
     required this.pickup,
@@ -49,6 +51,7 @@ class IsaacEntry {
       section: json['section'] as String? ?? '',
       name: json['name'] as String? ?? '',
       nameTr: json['name_tr'] as String? ?? '',
+      sprite: json['sprite'] as String? ?? '',
       idKind: json['id_kind'] as String? ?? '',
       idNumber: json['id_number'] as int?,
       pickup: json['pickup'] as String? ?? '',

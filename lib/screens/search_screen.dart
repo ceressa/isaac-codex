@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../item_sprite.dart';
 import '../models/isaac_entry.dart';
 import '../responsive.dart';
 import '../services/data_repository.dart';
@@ -184,12 +185,7 @@ class _EntryCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Row(
             children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: theme.colorScheme.primaryContainer,
-                child: Text(categoryIcon(entry.category),
-                    style: const TextStyle(fontSize: 18)),
-              ),
+              ItemSprite(entry: entry, size: 42),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -228,13 +224,7 @@ class _EntryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-        child: Text(
-          categoryIcon(entry.category),
-          style: const TextStyle(fontSize: 16),
-        ),
-      ),
+      leading: ItemSprite(entry: entry, size: 40),
       title: Text(
         entry.displayName,
         maxLines: 1,

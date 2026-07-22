@@ -47,3 +47,6 @@ app.*.map.json
 # scraped source page (copyrighted third-party HTML)
 scraper/page.html
 scraper/*.html
+
+# downloaded spritesheets/html (copyrighted intermediates, not redistributed)
+scraper/_cache/

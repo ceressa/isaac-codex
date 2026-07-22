@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../item_sprite.dart';
 import '../models/isaac_entry.dart';
 import '../responsive.dart';
 import '../services/data_repository.dart';
@@ -171,8 +172,7 @@ class TypeListScreen extends StatelessWidget {
 
 Widget _entryTile(BuildContext context, IsaacEntry e) {
   return ListTile(
-    leading: Text(categoryIcon(e.category),
-        style: const TextStyle(fontSize: 20)),
+    leading: ItemSprite(entry: e, size: 38),
     title: Text(e.name),
     subtitle: Text(
       e.metadata['Type'] ?? e.section,

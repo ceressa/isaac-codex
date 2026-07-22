@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'responsive.dart';
 import 'screens/search_screen.dart';
+import 'screens/visual_screen.dart';
 import 'screens/category_screen.dart';
 import 'screens/seeds_screen.dart';
 
@@ -71,6 +72,7 @@ class _HomeShellState extends State<HomeShell> {
 
   static const _pages = [
     SearchScreen(),
+    VisualScreen(),
     CategoryScreen(),
     SeedsScreen(),
   ];
@@ -117,6 +119,11 @@ class _HomeShellState extends State<HomeShell> {
                     label: Text('Search'),
                   ),
                   NavigationRailDestination(
+                    icon: Icon(Icons.grid_view_outlined),
+                    selectedIcon: Icon(Icons.grid_view),
+                    label: Text('Visual'),
+                  ),
+                  NavigationRailDestination(
                     icon: Icon(Icons.category_outlined),
                     selectedIcon: Icon(Icons.category),
                     label: Text('Categories'),
@@ -145,6 +152,11 @@ class _HomeShellState extends State<HomeShell> {
           NavigationDestination(
             icon: Icon(Icons.search),
             label: 'Search',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.grid_view_outlined),
+            selectedIcon: Icon(Icons.grid_view),
+            label: 'Visual',
           ),
           NavigationDestination(
             icon: Icon(Icons.category_outlined),
