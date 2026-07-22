@@ -1,0 +1,33 @@
+name: boi_wiki
+description: "The Binding of Isaac: Repentance — Türkçe wiki ve item arama uygulaması."
+publish_to: 'none'
+version: 1.0.3+3002
+
+environment:
+  sdk: ^3.10.8
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  shared_preferences: ^2.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.1
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/data/items.json
+    - assets/data/preset_seeds.json
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#0A0808"
+  adaptive_icon_foreground: "assets/icon/icon_foreground.png"
+  min_sdk_android: 21

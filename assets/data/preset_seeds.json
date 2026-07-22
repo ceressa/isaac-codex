@@ -1,0 +1,85 @@
+{
+  "source": "Binding of Isaac: Repentance — Special Seeds (community-documented)",
+  "seeds": [
+    {
+      "code": "BLCK CNDL",
+      "name": "Black Candle",
+      "effect": "Tüm curse'ler (Curse of Darkness, Lost, Maze, Blind, Unknown, Cursed) her katta aktif olur."
+    },
+    {
+      "code": "BRWN SNKE",
+      "name": "Brown Snake",
+      "effect": "Patlayan kakaların %50 ihtimalle yılana dönüşür."
+    },
+    {
+      "code": "CRAP PIPE",
+      "name": "Crap Pipe",
+      "effect": "Tüm kakalardan rastgele tear'lar fışkırır."
+    },
+    {
+      "code": "DRAW NOIR",
+      "name": "Draw Noir",
+      "effect": "Oyun siyah-beyaz görünür."
+    },
+    {
+      "code": "HRDC ORE",
+      "name": "Hardcore",
+      "effect": "Hard mode kuralları zorla uygulanır (HP yarı, daha az pickup)."
+    },
+    {
+      "code": "ITSA TRAP",
+      "name": "It's a Trap",
+      "effect": "Tüm chest'ler mimic gibi davranır, açınca seni vurur."
+    },
+    {
+      "code": "KEYS PLZE",
+      "name": "Keys Please",
+      "effect": "Tüm pickup'lar key olur."
+    },
+    {
+      "code": "OLDR HOOD",
+      "name": "Olde Worlde",
+      "effect": "Sprite ve renkler eski (Flash) Isaac'in görünümüne döner."
+    },
+    {
+      "code": "PAY 2WIN",
+      "name": "Pay 2 Win",
+      "effect": "Tüm pickup'lar (kalp, key, bombe) shop'taki gibi paraya satın alınır."
+    },
+    {
+      "code": "PURE EVIL",
+      "name": "Pure Evil",
+      "effect": "Tüm angel room'lar devil room ile değiştirilir."
+    },
+    {
+      "code": "SLOW MOMM",
+      "name": "Slow Mode",
+      "effect": "Oyun yavaş motion'da çalışır."
+    },
+    {
+      "code": "SUPR HOTT",
+      "name": "Superhot",
+      "effect": "Sen hareket etmedikçe oyun durur (Superhot mekaniği)."
+    },
+    {
+      "code": "FART SNGS",
+      "name": "Fart Sounds",
+      "effect": "Tüm efektler osuruk sesine dönüşür."
+    },
+    {
+      "code": "PRGT PRGT",
+      "name": "Purgatory",
+      "effect": "Tüm odalar Mom's Heart fight'ı gibi extra zor olur."
+    },
+    {
+      "code": "GLOW ENMY",
+      "name": "Glowing Enemies",
+      "effect": "Düşmanlar parlar (champion görünümü)."
+    },
+    {
+      "code": "ULTR HARD",
+      "name": "Ultra Hard",
+      "effect": "Hard mode + bütün curse'ler + en zor item pool."
+    }
+  ]
+}
