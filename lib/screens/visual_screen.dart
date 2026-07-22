@@ -34,10 +34,13 @@ class _VisualScreenState extends State<VisualScreen> {
     if (mounted) setState(() {});
   }
 
-  Widget _chip(String label, String? value) {
+  Widget _chip(String label, String? value, {String? icon}) {
     return Padding(
-      padding: const EdgeInsets.only(right: 6),
+      padding: const EdgeInsets.only(right: 8),
       child: FilterChip(
+        avatar: (icon == null || icon.isEmpty)
+            ? null
+            : Text(icon, style: const TextStyle(fontSize: 15)),
         label: Text(label),
         selected: _typeFilter == value,
         onSelected: (_) => setState(() => _typeFilter = value),
@@ -68,7 +71,7 @@ class _VisualScreenState extends State<VisualScreen> {
                       children: [
                         _chip('All', null),
                         for (final tf in kTypeFilters)
-                          _chip('${tf.icon} ${tf.label}', tf.id),
+                          _chip(tf.label, tf.id, icon: tf.icon),
                       ],
                     ),
                   ),

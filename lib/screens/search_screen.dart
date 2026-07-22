@@ -32,11 +32,14 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 
-  Widget _typeChip({required String label, required String? value}) {
+  Widget _typeChip({String? icon, required String label, required String? value}) {
     final isSelected = _typeFilter == value;
     return Padding(
-      padding: const EdgeInsets.only(right: 6),
+      padding: const EdgeInsets.only(right: 8),
       child: FilterChip(
+        avatar: (icon == null || icon.isEmpty)
+            ? null
+            : Text(icon, style: const TextStyle(fontSize: 15)),
         label: Text(label),
         selected: isSelected,
         onSelected: (_) => setState(() => _typeFilter = value),
@@ -85,13 +88,13 @@ class _SearchScreenState extends State<SearchScreen> {
           const SizedBox(height: 8),
           if (!_loading)
             SizedBox(
-              height: 40,
+              height: 46,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
                   _typeChip(label: 'All', value: null),
                   for (final tf in kTypeFilters)
-                    _typeChip(label: '${tf.icon} ${tf.label}', value: tf.id),
+                    _typeChip(icon: tf.icon, label: tf.label, value: tf.id),
                 ],
               ),
             ),

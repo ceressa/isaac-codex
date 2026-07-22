@@ -240,18 +240,22 @@ class _FilterChips extends StatelessWidget {
         children: [
           _chip(context, label: 'All', value: null),
           ...kTypeFilters.map(
-            (tf) => _chip(context, label: '${tf.icon} ${tf.label}', value: tf.id),
+            (tf) => _chip(context, icon: tf.icon, label: tf.label, value: tf.id),
           ),
         ],
       ),
     );
   }
 
-  Widget _chip(BuildContext context, {required String label, required String? value}) {
+  Widget _chip(BuildContext context,
+      {String? icon, required String label, required String? value}) {
     final isSelected = selected == value;
     return Padding(
-      padding: const EdgeInsets.only(right: 6),
+      padding: const EdgeInsets.only(right: 8),
       child: FilterChip(
+        avatar: (icon == null || icon.isEmpty)
+            ? null
+            : Text(icon, style: const TextStyle(fontSize: 15)),
         label: Text(label),
         selected: isSelected,
         onSelected: (_) => onChanged(value),
