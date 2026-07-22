@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/isaac_entry.dart';
+import '../responsive.dart';
 import '../services/data_repository.dart';
 import 'detail_screen.dart';
 
@@ -43,39 +44,42 @@ class _CategoryScreenState extends State<CategoryScreen> {
         .toList();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Categories')),
-      body: ListView(
-        children: [
-          _SectionHeader(title: 'By type'),
-          ...kTypeFilters.map((tf) {
-            final count = repo.countByType(tf.id);
-            return ListTile(
-              leading: Text(tf.icon, style: const TextStyle(fontSize: 24)),
-              title: Text(tf.label),
-              subtitle: Text('$count items'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => TypeListScreen(filter: tf),
-                ),
-              ),
-            );
-          }),
-          const Divider(height: 24),
-          _SectionHeader(title: 'By source'),
-          ...visibleSources.map((c) => ListTile(
-                leading: Text(c.icon, style: const TextStyle(fontSize: 24)),
-                title: Text(c.label),
-                subtitle: Text('${counts[c.id]} items'),
+      appBar: AppBar(title: const Text('Categories'), centerTitle: false),
+      body: ContentWrap(
+        maxWidth: 760,
+        child: ListView(
+          children: [
+            _SectionHeader(title: 'By type'),
+            ...kTypeFilters.map((tf) {
+              final count = repo.countByType(tf.id);
+              return ListTile(
+                leading: Text(tf.icon, style: const TextStyle(fontSize: 24)),
+                title: Text(tf.label),
+                subtitle: Text('$count items'),
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (_) => CategoryListScreen(category: c),
+                    builder: (_) => TypeListScreen(filter: tf),
                   ),
                 ),
-              )),
-          const SizedBox(height: 16),
-        ],
+              );
+            }),
+            const Divider(height: 24),
+            _SectionHeader(title: 'By source'),
+            ...visibleSources.map((c) => ListTile(
+                  leading: Text(c.icon, style: const TextStyle(fontSize: 24)),
+                  title: Text(c.label),
+                  subtitle: Text('${counts[c.id]} items'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => CategoryListScreen(category: c),
+                    ),
+                  ),
+                )),
+            const SizedBox(height: 16),
+          ],
+        ),
       ),
     );
   }
@@ -121,22 +125,25 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
     );
     return Scaffold(
       appBar: AppBar(title: Text(widget.category.label)),
-      body: Column(
-        children: [
-          _FilterChips(
-            selected: _typeFilter,
-            onChanged: (v) => setState(() => _typeFilter = v),
-          ),
-          Expanded(
-            child: entries.isEmpty
-                ? const Center(child: Text('No items for this filter.'))
-                : ListView.builder(
-                    itemCount: entries.length,
-                    itemBuilder: (context, i) =>
-                        _entryTile(context, entries[i]),
-                  ),
-          ),
-        ],
+      body: ContentWrap(
+        maxWidth: 760,
+        child: Column(
+          children: [
+            _FilterChips(
+              selected: _typeFilter,
+              onChanged: (v) => setState(() => _typeFilter = v),
+            ),
+            Expanded(
+              child: entries.isEmpty
+                  ? const Center(child: Text('No items for this filter.'))
+                  : ListView.builder(
+                      itemCount: entries.length,
+                      itemBuilder: (context, i) =>
+                          _entryTile(context, entries[i]),
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -151,9 +158,12 @@ class TypeListScreen extends StatelessWidget {
     final entries = DataRepository.instance.search('', typeFilter: filter.id);
     return Scaffold(
       appBar: AppBar(title: Text('${filter.icon} ${filter.label}')),
-      body: ListView.builder(
-        itemCount: entries.length,
-        itemBuilder: (context, i) => _entryTile(context, entries[i]),
+      body: ContentWrap(
+        maxWidth: 760,
+        child: ListView.builder(
+          itemCount: entries.length,
+          itemBuilder: (context, i) => _entryTile(context, entries[i]),
+        ),
       ),
     );
   }

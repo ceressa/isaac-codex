@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../models/saved_seed.dart';
+import '../responsive.dart';
 import '../services/seed_store.dart';
 
 class SeedsScreen extends StatefulWidget {
@@ -35,6 +36,7 @@ class _SeedsScreenState extends State<SeedsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Saved Seeds'),
+        centerTitle: false,
         actions: [
           IconButton(
             icon: const Icon(Icons.auto_awesome),
@@ -45,41 +47,44 @@ class _SeedsScreenState extends State<SeedsScreen> {
           ),
         ],
       ),
-      body: !SeedStore.instance.isLoaded
-          ? const Center(child: CircularProgressIndicator())
-          : seeds.isEmpty
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(32),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.bookmark_border,
-                          size: 64,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'No seeds yet',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Save the code from Options -> Seeded Run in-game '
-                          'using the + button below. Never lose a good run.',
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ],
+      body: ContentWrap(
+        maxWidth: 760,
+        child: !SeedStore.instance.isLoaded
+            ? const Center(child: CircularProgressIndicator())
+            : seeds.isEmpty
+                ? Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(32),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.bookmark_border,
+                            size: 64,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'No seeds yet',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Save the code from Options -> Seeded Run in-game '
+                            'using the + button below. Never lose a good run.',
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
                     ),
+                  )
+                : ListView.separated(
+                    itemCount: seeds.length,
+                    separatorBuilder: (_, _) => const Divider(height: 1),
+                    itemBuilder: (context, i) => _SeedTile(seed: seeds[i]),
                   ),
-                )
-              : ListView.separated(
-                  itemCount: seeds.length,
-                  separatorBuilder: (_, _) => const Divider(height: 1),
-                  itemBuilder: (context, i) => _SeedTile(seed: seeds[i]),
-                ),
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _openEditor(context, null),
         icon: const Icon(Icons.add),
@@ -230,92 +235,96 @@ class _PresetSeedsScreenState extends State<PresetSeedsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Preset Seeds')),
-      body: _loading
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-                  child: Text(
-                    'Repentance "Special Seeds" codes that modify the game in '
-                    'strange ways. Tap to save one to your list.',
-                    style: Theme.of(context).textTheme.bodySmall,
+      body: ContentWrap(
+        maxWidth: 760,
+        child: _loading
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                    child: Text(
+                      'Repentance "Special Seeds" codes that modify the game in '
+                      'strange ways. Tap to save one to your list.',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: ListView.separated(
-                    itemCount: _presets.length,
-                    separatorBuilder: (_, _) => const Divider(height: 1),
-                    itemBuilder: (_, i) {
-                      final p = _presets[i];
-                      return ListTile(
-                        title: Row(
-                          children: [
-                            SelectableText(
-                              p.code,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(
-                                    fontFamily: 'monospace',
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .primary,
-                                    letterSpacing: 1.5,
-                                  ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: Text(
-                                p.name,
-                                style: Theme.of(context).textTheme.bodyMedium,
+                  Expanded(
+                    child: ListView.separated(
+                      itemCount: _presets.length,
+                      separatorBuilder: (_, _) => const Divider(height: 1),
+                      itemBuilder: (_, i) {
+                        final p = _presets[i];
+                        return ListTile(
+                          title: Row(
+                            children: [
+                              SelectableText(
+                                p.code,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(
+                                      fontFamily: 'monospace',
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary,
+                                      letterSpacing: 1.5,
+                                    ),
                               ),
-                            ),
-                          ],
-                        ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Text(p.effect),
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.bookmark_add_outlined),
-                          tooltip: 'Add to my list',
-                          onPressed: () async {
-                            await SeedStore.instance.add(SavedSeed(
-                              id: DateTime.now()
-                                  .microsecondsSinceEpoch
-                                  .toString(),
-                              code: p.code,
-                              character: '',
-                              note: '${p.name}: ${p.effect}',
-                              savedAt: DateTime.now(),
-                              tags: const ['preset'],
-                            ));
-                            if (!context.mounted) return;
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: Text(
+                                  p.name,
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
+                            ],
+                          ),
+                          subtitle: Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: Text(p.effect),
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.bookmark_add_outlined),
+                            tooltip: 'Add to my list',
+                            onPressed: () async {
+                              await SeedStore.instance.add(SavedSeed(
+                                id: DateTime.now()
+                                    .microsecondsSinceEpoch
+                                    .toString(),
+                                code: p.code,
+                                character: '',
+                                note: '${p.name}: ${p.effect}',
+                                savedAt: DateTime.now(),
+                                tags: const ['preset'],
+                              ));
+                              if (!context.mounted) return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('${p.code} added'),
+                                  duration: const Duration(seconds: 1),
+                                ),
+                              );
+                            },
+                          ),
+                          onLongPress: () {
+                            Clipboard.setData(ClipboardData(text: p.code));
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('${p.code} added'),
+                                content: Text('${p.code} copied'),
                                 duration: const Duration(seconds: 1),
                               ),
                             );
                           },
-                        ),
-                        onLongPress: () {
-                          Clipboard.setData(ClipboardData(text: p.code));
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('${p.code} copied'),
-                              duration: const Duration(seconds: 1),
-                            ),
-                          );
-                        },
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
+      ),
     );
   }
 }
@@ -399,70 +408,75 @@ class _SeedEditorState extends State<SeedEditor> {
         top: 8,
         bottom: MediaQuery.of(context).viewInsets.bottom + 16,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            widget.existing == null ? 'New Seed' : 'Edit Seed',
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _codeCtrl,
-            textCapitalization: TextCapitalization.characters,
-            decoration: const InputDecoration(
-              labelText: 'Seed code (8 characters)',
-              hintText: 'ABCD 1234',
-              border: OutlineInputBorder(),
-            ),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(
-                RegExp(r'[A-Za-z0-9 ]'),
-              ),
-              LengthLimitingTextInputFormatter(9),
-            ],
-          ),
-          const SizedBox(height: 12),
-          DropdownButtonFormField<String>(
-            initialValue: _character.isEmpty ? null : _character,
-            isExpanded: true,
-            decoration: const InputDecoration(
-              labelText: 'Character (optional)',
-              border: OutlineInputBorder(),
-            ),
-            items: kCharacters
-                .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-                .toList(),
-            onChanged: (v) => setState(() => _character = v ?? ''),
-          ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: _noteCtrl,
-            maxLines: 3,
-            decoration: const InputDecoration(
-              labelText: 'Note (optional)',
-              hintText: 'e.g. double Sacred Heart in Basement',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 520),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('Cancel'),
+              Text(
+                widget.existing == null ? 'New Seed' : 'Edit Seed',
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(width: 8),
-              FilledButton.icon(
-                onPressed: _save,
-                icon: const Icon(Icons.save),
-                label: const Text('Save'),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _codeCtrl,
+                textCapitalization: TextCapitalization.characters,
+                decoration: const InputDecoration(
+                  labelText: 'Seed code (8 characters)',
+                  hintText: 'ABCD 1234',
+                  border: OutlineInputBorder(),
+                ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp(r'[A-Za-z0-9 ]'),
+                  ),
+                  LengthLimitingTextInputFormatter(9),
+                ],
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<String>(
+                initialValue: _character.isEmpty ? null : _character,
+                isExpanded: true,
+                decoration: const InputDecoration(
+                  labelText: 'Character (optional)',
+                  border: OutlineInputBorder(),
+                ),
+                items: kCharacters
+                    .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                    .toList(),
+                onChanged: (v) => setState(() => _character = v ?? ''),
+              ),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _noteCtrl,
+                maxLines: 3,
+                decoration: const InputDecoration(
+                  labelText: 'Note (optional)',
+                  hintText: 'e.g. double Sacred Heart in Basement',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Cancel'),
+                  ),
+                  const SizedBox(width: 8),
+                  FilledButton.icon(
+                    onPressed: _save,
+                    icon: const Icon(Icons.save),
+                    label: const Text('Save'),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }

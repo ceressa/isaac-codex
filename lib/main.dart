@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'responsive.dart';
 import 'screens/search_screen.dart';
 import 'screens/category_screen.dart';
 import 'screens/seeds_screen.dart';
@@ -74,13 +75,72 @@ class _HomeShellState extends State<HomeShell> {
     SeedsScreen(),
   ];
 
+  void _select(int i) => setState(() => _index = i);
+
   @override
   Widget build(BuildContext context) {
+    final body = IndexedStack(index: _index, children: _pages);
+
+    if (isWide(context)) {
+      final theme = Theme.of(context);
+      return Scaffold(
+        body: SafeArea(
+          child: Row(
+            children: [
+              NavigationRail(
+                selectedIndex: _index,
+                onDestinationSelected: _select,
+                labelType: NavigationRailLabelType.all,
+                groupAlignment: -0.85,
+                backgroundColor: theme.colorScheme.surfaceContainerLow,
+                leading: Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 20),
+                  child: Column(
+                    children: [
+                      Icon(Icons.menu_book_rounded,
+                          color: theme.colorScheme.primary, size: 30),
+                      const SizedBox(height: 6),
+                      Text(
+                        'CODEX',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                destinations: const [
+                  NavigationRailDestination(
+                    icon: Icon(Icons.search),
+                    label: Text('Search'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.category_outlined),
+                    selectedIcon: Icon(Icons.category),
+                    label: Text('Categories'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.bookmark_border),
+                    selectedIcon: Icon(Icons.bookmark),
+                    label: Text('Seeds'),
+                  ),
+                ],
+              ),
+              const VerticalDivider(width: 1, thickness: 1),
+              Expanded(child: body),
+            ],
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
-      body: IndexedStack(index: _index, children: _pages),
+      body: body,
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
-        onDestinationSelected: (i) => setState(() => _index = i),
+        onDestinationSelected: _select,
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.search),
